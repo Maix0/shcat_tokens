@@ -6,12 +6,12 @@
 #    By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/12 11:05:05 by rparodi           #+#    #+#              #
-#    Updated: 2024/06/01 23:03:12 by maiboyer         ###   ########.fr        #
+#    Updated: 2024/06/04 23:01:49 by maiboyer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Objdir
-OBJDIRNAME = ./build
+BUILD_DIR = $(shell realpath build)
 
 # Colors
 GREEN = \033[32m
@@ -23,7 +23,7 @@ END = \033[0m
 # Rules
 SRC_DIR = ./src
 GEN_DIR = ./output
-NAME = minishell
+NAME = tokenizer
 
 PMAKE_DISABLE =
 PMAKE =
@@ -38,14 +38,14 @@ endif
 
 # All (make all)
 all: 
-	@$(MAKE) --no-print-directory header            OBJDIRNAME=$(OBJDIRNAME) BASE_PATH=$(shell pwd)
-	@$(MAKE) --no-print-directory -f./Minishell.mk  OBJDIRNAME=$(OBJDIRNAME) BASE_PATH=$(shell pwd) $(PMAKE)
-	@$(MAKE) --no-print-directory footer            OBJDIRNAME=$(OBJDIRNAME) BASE_PATH=$(shell pwd)
+	@$(MAKE) --no-print-directory header            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
+	@$(MAKE) --no-print-directory -f./Tokenizer.mk  BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd) $(PMAKE)
+	@$(MAKE) --no-print-directory footer            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
 
 bonus: 
-	@$(MAKE) --no-print-directory header            OBJDIRNAME=$(OBJDIRNAME) BASE_PATH=$(shell pwd)
-	@$(MAKE) --no-print-directory -f./Minishell.mk  OBJDIRNAME=$(OBJDIRNAME) BASE_PATH=$(shell pwd) $(PMAKE) bonus
-	@$(MAKE) --no-print-directory footer            OBJDIRNAME=$(OBJDIRNAME) BASE_PATH=$(shell pwd)
+	@$(MAKE) --no-print-directory header            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
+	@$(MAKE) --no-print-directory -f./Tokenizer.mk  BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd) $(PMAKE) bonus
+	@$(MAKE) --no-print-directory footer            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
 
 #	Header
 header:
@@ -78,16 +78,11 @@ footer:
 		@printf "$(GOLD)                   '\"'   '\"'$(END)\n"
 		@printf '              $(GREY)The compilation is$(END) $(GOLD)finish$(END)\n               $(GREY)Have a good $(END)$(GOLD)correction !$(END)\n'
 
-pull:
-	@printf "$(GREEN)Pulling Submodules$(END)\n"
-	@git submodule init
-	@git submodule update
-
 # Clean (make clean)
 clean:
 	@echo -e '$(GREY) Removing $(END)$(RED)Objects$(END)'
 	@echo -e '$(GREY) Removing $(END)$(RED)Objects Folder$(END)'
-	@$(RM) -r $(OBJDIRNAME)
+	@$(RM) -r $(BUILD_DIR)
 
 # Clean (make fclean)
 fclean: clean
@@ -104,4 +99,4 @@ generate_filelist:
 	@/usr/bin/env zsh -c "tree -iFf --noreport $(SRC_DIR) | rg '^$(SRC_DIR)/(.*\.c)\$$' --replace '\$$1' | sort -u" > ./src.list
 	@/usr/bin/env zsh -c "tree -iFf --noreport $(GEN_DIR) | rg '^$(GEN_DIR)/(.*\.c)\$$' --replace '\$$1' | sort -u" > ./gen.list
 #	phony
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus clean fclean re header footer generate_filelist

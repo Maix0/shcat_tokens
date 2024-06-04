@@ -6,7 +6,7 @@
 /*   By: maiboyer <maiboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 22:39:04 by maiboyer          #+#    #+#             */
-/*   Updated: 2024/06/04 21:21:40 by maiboyer         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:21:55 by maiboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ struct s_tok_build_state
 	t_vec_token *out_vec;
 	t_quote_type qtype;
 	bool		 stop;
+	bool		 error;
 	t_usize		 line_len;
 };
 
@@ -40,13 +41,17 @@ void token_free(t_token tok)
 	(void)(tok);
 }
 
-void build_tok_line(t_usize index, const t_str *line, t_tok_build_state *s)
+void build_tok_line(t_usize l_idx, const t_str *line, t_tok_build_state *s)
 {
-	(void)(index);
-	if (s->stop)
+	t_usize i;
+
+	(void)(l_idx);
+	if (s->stop || s->error)
 		return;
 	s->line_len = str_len(*line);
-	
+	i = 0;
+	while (i < s->line_len)
+		i++;
 }
 
 t_error into_tokens(t_vec_str *lines, t_vec_token *out)
@@ -63,7 +68,9 @@ t_error into_tokens(t_vec_str *lines, t_vec_token *out)
 	state.out_vec = &vec;
 	state.lines = lines;
 	state.stop = false;
+	state.error = false;
 	vec_str_iter(lines, (void (*)())build_tok_line, &state);
-
+	if (state.error)
+		return (vec_token_free(vec), ERROR);
 	return (*out = vec, NO_ERROR);
 }
