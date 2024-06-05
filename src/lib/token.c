@@ -6,13 +6,12 @@
 /*   By: maiboyer <maiboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 22:39:04 by maiboyer          #+#    #+#             */
-/*   Updated: 2024/06/04 23:21:55 by maiboyer         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:35:47 by maiboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "me/str/str.h"
 #include "me/types.h"
-#include "me/vec/vec_str.h"
 #include "me/vec/vec_token.h"
 #include "tok/tokens.h"
 
@@ -28,12 +27,12 @@ enum e_quote_type
 
 struct s_tok_build_state
 {
-	t_vec_str	*lines;
-	t_vec_token *out_vec;
+	t_vec_token *tokens;
 	t_quote_type qtype;
-	bool		 stop;
-	bool		 error;
-	t_usize		 line_len;
+	t_usize		 idx;
+	t_usize		 llen;
+	bool		 unfinished;
+	t_const_str	 leftovers;
 };
 
 void token_free(t_token tok)
@@ -41,36 +40,39 @@ void token_free(t_token tok)
 	(void)(tok);
 }
 
-void build_tok_line(t_usize l_idx, const t_str *line, t_tok_build_state *s)
+t_error into_tokens(t_str line, t_tok_build_state *s)
 {
-	t_usize i;
 
-	(void)(l_idx);
-	if (s->stop || s->error)
-		return;
-	s->line_len = str_len(*line);
-	i = 0;
-	while (i < s->line_len)
-		i++;
-}
-
-t_error into_tokens(t_vec_str *lines, t_vec_token *out)
-{
-	t_vec_token		  vec;
-	t_tok_build_state state;
-
-	if (lines == NULL || out == NULL)
+	if (line == NULL || s == NULL)
 		return (ERROR);
-	vec = vec_token_new(1024, token_free);
-	if (vec.buffer == NULL)
-		return (ERROR);
-	state = (t_tok_build_state){};
-	state.out_vec = &vec;
-	state.lines = lines;
-	state.stop = false;
-	state.error = false;
-	vec_str_iter(lines, (void (*)())build_tok_line, &state);
-	if (state.error)
-		return (vec_token_free(vec), ERROR);
-	return (*out = vec, NO_ERROR);
+	s->idx = 0;
+	s->llen = str_len(line);
+	if (s->llen >= 2 && line[s->llen - 1] == '\n' && line[s->llen - 2] == '\\' && (s->llen >= 3 && line[s->llen - 3] != '\\'))
+		line[s->llen - 1] = '\0';
+	while (s->idx < s->llen)
+	{
+		if (s->qtype == NO_QUOTE)
+		{
+		}
+		else if (s->qtype == DOUBLE_QUOTE)
+		{
+		}
+		else if (s->qtype == SINGLE_QUOTE)
+		{
+			t_usize sq_len;
+			sq_len = 0;
+			while (line[s->idx + sq_len] != '\'' && line[s->idx + sq_len])
+				sq_len++;
+			if (line[s->idx + sq_len] != '\'')
+			{
+				s->unfinished = true;
+				s->leftovers = str_join(s->leftovers, str_substring(line, s->idx, sq_len));
+			}
+			else
+			{
+			}
+		}
+	}
+
+	return (NO_ERROR);
 }
