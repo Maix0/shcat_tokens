@@ -6,7 +6,7 @@
 #    By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/12 11:05:05 by rparodi           #+#    #+#              #
-#    Updated: 2024/06/05 10:01:18 by maiboyer         ###   ########.fr        #
+#    Updated: 2024/06/05 15:37:13 by maiboyer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ all:
 	@$(MAKE) --no-print-directory -f./Tokenizer.mk  BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd) $(PMAKE)
 	@$(MAKE) --no-print-directory footer            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
 
-bonus: 
+bonus:
 	@$(MAKE) --no-print-directory header            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
 	@$(MAKE) --no-print-directory -f./Tokenizer.mk  BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd) $(PMAKE) bonus
 	@$(MAKE) --no-print-directory footer            BUILD_DIR=$(BUILD_DIR) BASE_PATH=$(shell pwd)
@@ -65,26 +65,26 @@ header:
 	@echo -e '$(GOLD)              ******    ******* ****** $(END)'
 	@echo -e '$(GOLD)              ******                   $(END)'
 	@echo -e '$(GOLD)              ******                   $(END)'
-	@echo -e '$(GREY)          Made by maiboyerlpb x rparodi$(END)'
+	@echo -e '$(GREY)         Made by maiboyerlpb x rparodi $(END)'
 
 #	Footer
 footer:
-	@echo -e '$(GOLD)                                  _    $(END)'
-	@echo -e '$(GOLD)                                 | \   $(END)'
-	@echo -e '$(GOLD)                                 | |   $(END)'
-	@echo -e '$(GOLD)                                 | |   $(END)'
-	@echo -e '$(GOLD)            |\      $(CYAN)$(BOLD)$(UNDERLINE)shcat$(END)$(GOLD)        | |   $(END)'
-	@echo -e '$(GOLD)           /, ~\                / /    $(END)'
-	@echo -e '$(GOLD)          X     `-.....-------./ /     $(END)'
-	@echo -e '$(GOLD)           ~-. ~  ~              |     $(END)'
-	@echo -e '$(GOLD)              \             /    |     $(END)'
-	@echo -e '$(GOLD)               \  /_     ___\   /      $(END)'
-	@echo -e '$(GOLD)               | /\ ~~~~~   \ |        $(END)'
-	@echo -e '$(GOLD)               | | \        || |       $(END)'
-	@echo -e '$(GOLD)               | |\ \       || )       $(END)'
-	@echo -e '$(GOLD)              (_/ (_/      ((_/        $(END)'
-	@echo -e '            $(GREY)The compilation is $(END)$(GOLD)finished$(END)'
-	@echo -e '                 $(GREY)Have a good $(END)$(GOLD)correction$(END)'
+	@echo -e '$(GOLD)                               _    $(END)'
+	@echo -e '$(GOLD)                              | \   $(END)'
+	@echo -e '$(GOLD)                              | |   $(END)'
+	@echo -e '$(GOLD)                              | |   $(END)'
+	@echo -e '$(GOLD)         |\      $(CYAN)$(BOLD)$(UNDERLINE)shcat$(END)$(GOLD)        | |   $(END)'
+	@echo -e '$(GOLD)        /, ~\                / /    $(END)'
+	@echo -e '$(GOLD)       X     `-.....-------./ /     $(END)'
+	@echo -e '$(GOLD)        ~-. ~  ~              |     $(END)'
+	@echo -e '$(GOLD)           \             /    |     $(END)'
+	@echo -e '$(GOLD)            \  /_     ___\   /      $(END)'
+	@echo -e '$(GOLD)            | /\ ~~~~~   \ |        $(END)'
+	@echo -e '$(GOLD)            | | \        || |       $(END)'
+	@echo -e '$(GOLD)            | |\ \       || )       $(END)'
+	@echo -e '$(GOLD)           (_/ (_/      ((_/        $(END)'
+	@echo -e '         $(GREY)The compilation is $(END)$(GOLD)finished$(END)'
+	@echo -e '              $(GREY)Have a good $(END)$(GOLD)correction$(END)'
 
 
 # Clean (make clean)
@@ -100,7 +100,7 @@ fclean: clean
 	@echo ""
 
 # Restart (make re)
-re: header 
+re:
 	@$(MAKE) --no-print-directory fclean
 	@$(MAKE) --no-print-directory all
 

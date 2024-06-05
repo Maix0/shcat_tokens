@@ -6,7 +6,7 @@
 #    By: maiboyer <maiboyer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/28 17:28:30 by maiboyer          #+#    #+#              #
-#    Updated: 2024/06/04 23:03:37 by maiboyer         ###   ########.fr        #
+#    Updated: 2024/06/05 13:53:29 by maiboyer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,10 +61,10 @@ LIBS_FILES = $(addprefix $(BUILD_DIR)/, $(addsuffix .a, $(addprefix lib, $(LIBS_
 LIBS_FLAGS = $(addprefix -l, $(LIBS_NAMES))
 
 all:
-	@$(MAKE) -C ./stdme/ "LIB_NAME=$(shell realpath ./stdme)/"							"BUILD_DIR=$(BUILD_DIR)" libme.a
-	@$(MAKE) -C ./allocator/ "LIB_NAME=$(shell realpath ./allocator)/"					"BUILD_DIR=$(BUILD_DIR)" libaq.a
-	@# @$(MAKE) -C ./ast/ "LIB_NAME=$(shell realpath ./ast)/"							"BUILD_DIR=$(BUILD_DIR)" libast.a
-	@# @$(MAKE) -C ./parser/ -f./Grammar.mk "LIB_NAME=$(shell realpath ./parser)/" 		"BUILD_DIR=$(BUILD_DIR)" libgmr.a
+	@$(MAKE) -C ./stdme/ "LIB_NAME=$(shell realpath ./stdme)/"						"BUILD_DIR=$(BUILD_DIR)" libme.a
+	@$(MAKE) -C ./allocator/ "LIB_NAME=$(shell realpath ./allocator)/"				"BUILD_DIR=$(BUILD_DIR)" libaq.a
+	@# @$(MAKE) -C ./ast/ "LIB_NAME=$(shell realpath ./ast)/"						"BUILD_DIR=$(BUILD_DIR)" libast.a
+	@# @$(MAKE) -C ./parser/ -f./Grammar.mk "LIB_NAME=$(shell realpath ./parser)/" 	"BUILD_DIR=$(BUILD_DIR)" libgmr.a
 	@$(MAKE) -f./Tokenizer.mk $(NAME)
 
 
